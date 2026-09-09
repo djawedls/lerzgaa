@@ -211,18 +211,23 @@
       💬 Commander via WhatsApp (0554254953)
     </a>
   </div>
-
-</section>
-<!-- Connexion automatique à la base de données Supabase -->
+<!-- CONNEXION AUTOMATIQUE A SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = 'https://qgjbauxpfkygnkutpygh.supabase.co';
-  const SUPABASE_KEY = 'METS_TA_CLE_ANON_ICI';
+  const SUPABASE_KEY = 'sb_publishable_lThWn5bgtY3Dcc0RBT7RAw_MKSHmtn9';
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  async function enregistrerDansSupabase(nom, tel, details) {
-    await supabaseClient
-      .from('commandes')
-      .insert([{ nom: nom, telephone: tel, details: details }]);
-  }
+  // Capture automatique à l'envoi du formulaire
+  document.addEventListener('submit', async function(e) {
+    const nom = document.querySelector('[name=nom]') ? document.querySelector('[name=nom]').value : '';
+    const tel = document.querySelector('[name=telephone]') ? document.querySelector('[name=telephone]').value : '';
+    const details = document.querySelector('[name=commande]') ? document.querySelector('[name=commande]').value : '';
+
+    if (nom || tel) {
+      await supabaseClient
+        .from('commandes')
+        .insert([{ nom: nom, telephone: tel, details: details }]);
+    }
+  });
 </script>
