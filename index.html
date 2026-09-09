@@ -167,3 +167,49 @@
     </script>
 </body>
 </html>
+<!-- SECTION COMMANDES LE REGA -->
+<section style="max-width: 500px; margin: 30px auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-family: sans-serif; background-color: #ffffff;">
+  
+  <h2 style="text-align: center; color: #333;">Passer une commande - Le Rega</h2>
+
+  <!-- 1. FORMULAIRE PAR EMAIL (Géré par Netlify) -->
+  <form name="commande-lerega" method="POST" data-netlify="true" action="/success" style="display: flex; flex-direction: column; gap: 15px;">
+    
+    <!-- Email de destination configuré pour Netlify -->
+    <input type="hidden" name="to_email" value="djawedlounes@gmail.com">
+
+    <label style="color: #444;">
+      <strong>Nom complet :</strong><br>
+      <input type="text" name="nom" placeholder="Votre nom" required style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
+    </label>
+
+    <label style="color: #444;">
+      <strong>Numéro de téléphone :</strong><br>
+      <input type="tel" name="telephone" placeholder="Ex: 0554254953" required style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
+    </label>
+
+    <label style="color: #444;">
+      <strong>Votre commande (Détails) :</strong><br>
+      <textarea name="commande" rows="4" placeholder="Ex: 2x Burgers Le Rega, 1x Tacos, 2x Boissons" required style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"></textarea>
+    </label>
+
+    <button type="submit" style="background-color: #28a745; color: white; border: none; padding: 12px; font-size: 16px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+      📩 Envoyer la commande par E-mail
+    </button>
+  </form>
+
+  <hr style="margin: 25px 0; border: 0; border-top: 1px solid #eee;">
+
+  <!-- 2. BOUTON COMMANDER PAR WHATSAPP -->
+  <div style="text-align: center;">
+    <p style="margin-bottom: 12px; font-weight: bold; color: #444;">Vous préférez commander directement sur WhatsApp ?</p>
+    
+    <!-- Lien direct configuré avec le numéro 0554254953 -->
+    <a href="https://wa.me/213554254953?text=Bonjour%20Le%20Rega,%20je%20souhaite%20passer%20une%20commande%20:" 
+       target="_blank" 
+       style="display: inline-block; background-color: #25D366; color: white; text-decoration: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; font-size: 16px;">
+      💬 Commander via WhatsApp (0554254953)
+    </a>
+  </div>
+
+</section>
