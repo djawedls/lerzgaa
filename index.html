@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Rega - Fast Food</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { colors: { brand: { black: '#121212', dark: '#1a1a1a', red: '#e53e3e', orange: '#ff6b00', white: '#ffffff' } } } }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>body{font-family:'Poppins',sans-serif;}</style>
+</head>
+<body class="bg-brand-black text-white min-h-screen flex flex-col justify-between">
+    <header class="sticky top-0 z-40 bg-brand-black/95 border-b border-brand-orange/20">
+        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-brand-red to-brand-orange flex items-center justify-center font-black text-2xl">LR</div>
+                <div>
+                    <h1 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-brand-red via-brand-orange to-white uppercase">Le Rega</h1>
+                    <p class="text-xs text-gray-400">Burgers • Pizzas • Fajitas</p>
+                </div>
+            </div>
+            <button onclick="toggleCart()" class="bg-gradient-to-r from-brand-red to-brand-orange px-5 py-2.5 rounded-full font-bold flex items-center space-x-2">
+                <i class="fa-solid fa-cart-shopping"></i><span>Panier</span>
+                <span id="cart-badge" class="bg-white text-brand-black w-6 h-6 rounded-full text-xs font-black flex items-center justify-center">0</span>
+            </button>
+        </div>
+    </header>
+
+    <section class="py-12 bg-gradient-to-b from-brand-black via-brand-dark to-brand-black border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
+            <div class="space-y-4 text-center md:text-left">
+                <span class="px-4 py-1.5 rounded-full bg-brand-orange/10 border border-brand-orange text-brand-orange text-xs font-extrabold">🔥 Fast-Food #1</span>
+                <h2 class="text-4xl sm:text-5xl font-black">Burger dans une main, <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-red to-brand-orange">Pizza dans l'autre !</span></h2>
+                <p class="text-gray-300">Bienvenue chez Le Rega. Découvrez nos Pizzas, Burgers, Sandwichs, Fajitas et Boissons !</p>
+                <a href="#menu" class="inline-block px-8 py-4 bg-gradient-to-r from-brand-orange to-brand-red text-white font-black rounded-xl">Voir Le Menu</a>
+            </div>
+            <div class="flex justify-center">
+                <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80" alt="Chef Rega" class="rounded-3xl border-4 border-brand-orange/30 shadow-2xl max-h-96 object-cover">
+            </div>
+        </div>
+    </section>
+
+    <main id="menu" class="max-w-7xl mx-auto px-4 py-12">
+        <h2 class="text-3xl font-black text-center mb-8">NOTRE <span class="text-brand-orange">MENU</span></h2>
+        <div class="flex overflow-x-auto space-x-3 pb-4 mb-8 justify-start md:justify-center">
+            <button onclick="filterCategory('pizzas')" id="tab-pizzas" class="px-5 py-2.5 rounded-xl font-bold bg-brand-orange text-white">🍕 Pizzas (15)</button>
+            <button onclick="filterCategory('burgers')" id="tab-burgers" class="px-5 py-2.5 rounded-xl font-bold bg-brand-dark text-gray-300">🍔 Burgers (10)</button>
+            <button onclick="filterCategory('sandwichs')" id="tab-sandwichs" class="px-5 py-2.5 rounded-xl font-bold bg-brand-dark text-gray-300">🥖 Sandwichs (10)</button>
+            <button onclick="filterCategory('fajitas')" id="tab-fajitas" class="px-5 py-2.5 rounded-xl font-bold bg-brand-dark text-gray-300">🌮 Fajitas</button>
+            <button onclick="filterCategory('boissons')" id="tab-boissons" class="px-5 py-2.5 rounded-xl font-bold bg-brand-dark text-gray-300">🥤 Boissons</button>
+        </div>
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </main>
+
+    <footer class="bg-brand-black py-6 border-t border-gray-800 text-center text-gray-500 text-xs">
+        &copy; 2026 Le Rega Fast-Food. Tous droits réservés.
+    </footer>
+
+    <div id="cart-sidebar" class="fixed inset-y-0 right-0 w-full sm:w-96 bg-brand-dark z-50 transform translate-x-full transition-transform duration-300 p-6 flex flex-col justify-between border-l border-brand-orange/30">
+        <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+            <h3 class="text-xl font-black text-white">Mon Panier</h3>
+            <button onclick="toggleCart()" class="text-xl text-gray-400">✕</button>
+        </div>
+        <div id="cart-items" class="flex-1 overflow-y-auto py-4 space-y-3"></div>
+        <div class="border-t border-gray-800 pt-4 space-y-3">
+            <div class="flex justify-between text-lg font-black text-white"><span>Total :</span><span id="cart-total" class="text-brand-orange">0.00 €</span></div>
+            <input type="text" id="c-name" placeholder="Nom complet" class="w-full bg-brand-black p-2 rounded text-sm text-white border border-gray-700">
+            <input type="text" id="c-phone" placeholder="Téléphone" class="w-full bg-brand-black p-2 rounded text-sm text-white border border-gray-700">
+            <button onclick="sendOrder()" class="w-full py-3 bg-gradient-to-r from-brand-orange to-brand-red text-white font-black rounded-xl">COMMANDER (LIVRAISON)</button>
+        </div>
+    </div>
+    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/70 z-40 hidden"></div>
+
+    <script>
+        const products = [
+            { id: 1, c: 'pizzas', n: 'Margherita', p: 9.5, img: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400' },
+            { id: 2, c: 'pizzas', n: 'Reine', p: 11.5, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
+            { id: 3, c: 'pizzas', n: '4 Fromages', p: 12.5, img: 'https://images.unsplash.com/photo-1573821663912-569905455b1c?w=400' },
+            { id: 4, c: 'pizzas', n: 'Viande Hachée', p: 12.9, img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400' },
+            { id: 5, c: 'pizzas', n: 'Poulet BBQ', p: 12.5, img: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400' },
+            { id: 6, c: 'pizzas', n: 'Pepperoni Spicy', p: 12.0, img: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400' },
+            { id: 7, c: 'pizzas', n: 'Calzone', p: 12.5, img: 'https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=400' },
+            { id: 8, c: 'pizzas', n: 'Végétarienne', p: 11.0, img: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400' },
+            { id: 9, c: 'pizzas', n: 'Fruits de Mer', p: 14.0, img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400' },
+            { id: 10, c: 'pizzas', n: 'Orientale', p: 12.5, img: 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=400' },
+            { id: 11, c: 'pizzas', n: 'Spicy Mexican', p: 13.0, img: 'https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?w=400' },
+            { id: 12, c: 'pizzas', n: 'Truffe', p: 14.5, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
+            { id: 13, c: 'pizzas', n: 'Kebab Supreme', p: 13.0, img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400' },
+            { id: 14, c: 'pizzas', n: 'Hawaïenne', p: 11.5, img: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400' },
+            { id: 15, c: 'pizzas', n: 'Buffalo Chicken', p: 13.5, img: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400' },
+            { id: 16, c: 'burgers', n: 'Cheeseburger', p: 7.5, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400' },
+            { id: 17, c: 'burgers', n: 'Double Smash', p: 9.9, img: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=400' },
+            { id: 18, c: 'burgers', n: 'Bacon Cheese', p: 8.9, img: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=400' },
+            { id: 19, c: 'burgers', n: 'Crispy Chicken', p: 8.5, img: 'https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?w=400' },
+            { id: 20, c: 'burgers', n: 'Le Spécial Rega', p: 11.9, img: 'https://images.unsplash.com/photo-1582196016295-f8c8bd4b3a99?w=400' },
+            { id: 21, c: 'burgers', n: 'Veggie Burger', p: 8.0, img: 'https://images.unsplash.com/photo-1520072959219-c595dc870360?w=400' },
+            { id: 22, c: 'burgers', n: 'Fish Burger', p: 7.9, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400' },
+            { id: 23, c: 'burgers', n: 'BBQ Smokey', p: 9.2, img: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=400' },
+            { id: 24, c: 'burgers', n: 'Monster Triple', p: 12.5, img: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=400' },
+            { id: 25, c: 'burgers', n: 'Spicy Jalapeño', p: 8.9, img: 'https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?w=400' },
+            { id: 26, c: 'sandwichs', n: 'Philly Cheesesteak', p: 8.5, img: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400' },
+            { id: 27, c: 'sandwichs', n: 'Club Sandwich', p: 7.5, img: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400' },
+            { id: 28, c: 'sandwichs', n: 'Escalope Panée', p: 7.0, img: 'https://images.unsplash.com/photo-1619860860774-1e2e17343432?w=400' },
+            { id: 29, c: 'sandwichs', n: 'Hot Dog Merguez', p: 6.5, img: 'https://images.unsplash.com/photo-1619740455993-9e612b1af08a?w=400' },
+            { id: 30, c: 'sandwichs', n: 'French Tacos XL', p: 8.9, img: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400' },
+            { id: 31, c: 'sandwichs', n: 'Kebab Pita', p: 7.0, img: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400' },
+            { id: 32, c: 'sandwichs', n: 'Panini 3 Fromages', p: 6.0, img: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400' },
+            { id: 33, c: 'sandwichs', n: 'Ciabatta Poulet Pesto', p: 7.9, img: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400' },
+            { id: 34, c: 'sandwichs', n: 'Wrap Chicken', p: 7.5, img: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400' },
+            { id: 35, c: 'sandwichs', n: 'Sub Thon Crudités', p: 6.5, img: 'https://images.unsplash.com/photo-1619860860774-1e2e17343432?w=400' },
+            { id: 36, c: 'fajitas', n: 'Fajitas Poulet Épicé', p: 11.5, img: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400' },
+            { id: 37, c: 'fajitas', n: 'Fajitas Bœuf Grillé', p: 12.5, img: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400' },
+            { id: 38, c: 'boissons', n: 'Coca-Cola (33cl)', p: 2.5, img: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400' },
+            { id: 39, c: 'boissons', n: 'Pepsi (33cl)', p: 2.5, img: 'https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=400' },
+            { id: 40, c: 'boissons', n: 'Sprite (33cl)', p: 2.5, img: 'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=400' },
+            { id: 41, c: 'boissons', n: 'Lipton Ice Tea (33cl)', p: 2.5, img: 'https://images.unsplash.com/photo-1556881286-fc6915169721?w=400' }
+        ];
+
+        let cart = [];
+        function renderProducts(cat) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+            products.filter(p => p.c === cat).forEach(p => {
+                grid.innerHTML += `
+                    <div class="bg-brand-dark rounded-2xl overflow-hidden border border-gray-800 p-4 flex flex-col justify-between">
+                        <img src="${p.img}" class="h-40 w-full object-cover rounded-xl mb-3">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-bold text-white">${p.n}</h3>
+                            <span class="text-brand-orange font-black">${p.p.toFixed(2)} €</span>
+                        </div>
+                        <button onclick="addToCart(${p.id})" class="w-full py-2 bg-brand-orange text-white rounded-lg font-bold">+ Ajouter</button>
+                    </div>`;
+            });
+        }
+        function filterCategory(cat) { renderProducts(cat); }
+        function toggleCart() {
+            document.getElementById('cart-sidebar').classList.toggle('translate-x-full');
+            document.getElementById('cart-overlay').classList.toggle('hidden');
+        }
+        function addToCart(id) {
+            const item = cart.find(i => i.id === id);
+            if(item) item.qty++; else cart.push({...products.find(p => p.id === id), qty: 1});
+            updateCart();
+        }
+        function updateCart() {
+            const container = document.getElementById('cart-items');
+            container.innerHTML = '';
+            let total = 0, count = 0;
+            cart.forEach(i => {
+                total += i.p * i.qty; count += i.qty;
+                container.innerHTML += `<div class="flex justify-between items-center bg-brand-black p-2 rounded"><span class="text-xs">${i.n} (x${i.qty})</span><span class="text-xs text-brand-orange font-bold">${(i.p*i.qty).toFixed(2)}€</span></div>`;
+            });
+            document.getElementById('cart-badge').innerText = count;
+            document.getElementById('cart-total').innerText = total.toFixed(2) + ' €';
+        }
+        function sendOrder() {
+            alert('Commande enregistrée pour Le Rega !');
+            cart = []; updateCart(); toggleCart();
+        }
+        renderProducts('pizzas');
+    </script>
+</body>
+</html>
