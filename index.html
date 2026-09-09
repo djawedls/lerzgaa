@@ -213,3 +213,16 @@
   </div>
 
 </section>
+<!-- Connexion automatique à la base de données Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://qgjbauxpfkygnkutpygh.supabase.co';
+  const SUPABASE_KEY = 'METS_TA_CLE_ANON_ICI';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function enregistrerDansSupabase(nom, tel, details) {
+    await supabaseClient
+      .from('commandes')
+      .insert([{ nom: nom, telephone: tel, details: details }]);
+  }
+</script>
